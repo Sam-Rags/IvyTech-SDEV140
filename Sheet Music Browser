@@ -1,0 +1,52 @@
+'''
+Author: Samuel Ragsdale
+Last Update: 09/29/2024
+Assignment: SDEV 140 Final Project
+
+Description: This is a sheet music browser. Sheet music images can be uploaded
+and browsed, with the basic idea of keeping sheet music of favorite pieces
+organized.
+'''
+
+#necessary imports (more to come) for this program to work
+from breezypythongui import EasyFrame
+import tkinter.filedialog
+
+class sheetMusicBrowser(EasyFrame):
+    def __init__(self):
+        '''
+        the class here based on EasyFrame which has the window elements
+        at this point just a blank window which will later have the import
+        for the pdf files. Also there is an open button. Also there will
+        be a save button to save all the files with keywords for searching.
+        '''
+        EasyFrame.__init__(self, title = "Sheet Music Browser")
+        self.outputArea = self.addTextArea("", row = 0,
+                                           column = 0,
+                                           width = 80,
+                                           height = 15)
+        self.addButton(text = "Open", row = 1,
+                       column = 0, command = self.openFile)
+
+    def openFile(self):
+        '''
+        The openFile function which is called when the Open button is clicked,
+        it allows the user to import the files and display them.
+        '''
+        fList = [("PDF Files", "*.pdf"), #need to figure out how to import pdfs
+                 ("Text files", "*.txt")]
+        fileName = tkinter.filedialog.askopenfilename(parent = self,
+                                                  filetypes = fList)
+
+        if fileName != "":
+            file = open(fileName, 'r')
+            text = file.read()
+            file.close()
+            self.outputArea.setText(text)
+            self.setTitle(fileName)
+
+def main():
+    sheetMusicBrowser().mainloop()
+
+if __name__ == "__main__":
+    main()
